@@ -2,10 +2,12 @@ class BooksController < ApplicationController
 
   def show
     @book = Book.find(params[:id])
+    @book_show = Book.new
   end
 
   def index
     @books = Book.all
+    @book = Book.new
   end
 
   def create
@@ -26,22 +28,21 @@ class BooksController < ApplicationController
   def update
     @book = Book.find(params[:id])
     if @book.update(book_params)
-      byebug
       redirect_to book_path(@book), notice: "You have updated book successfully."
     else
       render "edit"
     end
   end
 
-  def delete
+  def destroy
     @book = Book.find(params[:id])
-    @book.destoy
+    @book.destroy
     redirect_to books_path
   end
 
   private
 
   def book_params
-    params.require(:book).permit(:title)
+    params.require(:book).permit(:title, :body)
   end
 end
